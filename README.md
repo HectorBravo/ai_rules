@@ -82,8 +82,8 @@ When the bot creates a new repo, it must clone using its PAT and then clean the 
 
 ```powershell
 # 1. Clone with PAT
-$env:BOT_TOKEN = "ghp_xxxxxxxxxxxx"
-git clone https://AI_bot:${env:BOT_TOKEN}@github.com/<owner>/<repo>.git
+$env:AI_BOT_TOKEN = "ghp_xxxxxxxxxxxx"
+git clone https://$env:AI_BOT_NAME:${env:AI_BOT_TOKEN}@github.com/<owner>/<repo>.git
 
 # 2. Remove PAT from remote URL
 git remote set-url origin https://github.com/<owner>/<repo>.git
@@ -93,22 +93,25 @@ git remote set-url origin https://github.com/<owner>/<repo>.git
 
 The bot uses **dynamic injection** to maintain its own identity without polluting the global config:
 
-1. **Store bot PAT** in a global `.env` file (e.g., `D:\repos\.env`):
+1. **Store bot credentials** in a global `.env` file (e.g., `D:\repos\.env`):
    ```
-   BOT_TOKEN=glpat_xxxxxxxxxxxx
+   AI_BOT_TOKEN=glpat_xxxxxxxxxxxx
+   AI_BOT_NAME=AI_bot
    AI_BOT_EMAIL=ai_bot@sample.com
    ```
 
-2. **Load bot PAT** in your shell profile (`.bashrc`, `.zshrc`, or `profile.ps1`):
+2. **Load bot credentials** in your shell profile (`.bashrc`, `.zshrc`, or `profile.ps1`):
    ```powershell
-   $env:BOT_TOKEN = (Get-Content "D:\repos\.env" | Where-Object { $_ -match "^BOT_TOKEN=" }).Split("=")[1]
+   $env:AI_BOT_TOKEN = (Get-Content "D:\repos\.env" | Where-Object { $_ -match "^AI_BOT_TOKEN=" }).Split("=")[1]
+   $env:AI_BOT_NAME = (Get-Content "D:\repos\.env" | Where-Object { $_ -match "^AI_BOT_NAME=" }).Split("=")[1]
+   $env:AI_BOT_EMAIL = (Get-Content "D:\repos\.env" | Where-Object { $_ -match "^AI_BOT_EMAIL=" }).Split("=")[1]
    ```
 
 3. **Bot pushes** use dynamic injection:
    ```powershell
    # Override identity + inject PAT
-   git -c user.name="AI_bot" -c user.email="$env:AI_BOT_EMAIL" commit -m "bot commit"
-   git push https://AI_bot:${env:BOT_TOKEN}@github.com/<owner>/<repo>.git
+   git -c user.name="$env:AI_BOT_NAME" -c user.email="$env:AI_BOT_EMAIL" commit -m "bot commit"
+   git push https://$env:AI_BOT_NAME:${env:AI_BOT_TOKEN}@github.com/<owner>/<repo>.git
    ```
 
 ### Identity Separation
@@ -116,4 +119,4 @@ The bot uses **dynamic injection** to maintain its own identity without pollutin
 | Action | Identity (Author) | Authentication |
 |---|---|---|
 | **You push** (`git push`) | Your Name (Global) | Your SSH Key (Global) |
-| **Bot pushes** (`git push https://AI_bot:${TOKEN}@...`) | AI_bot (Injected) | Bot PAT (Injected) |
+| **Bot pushes** (`git push https://$env:AI_BOT_NAME:${TOKEN}@...`) | AI_bot (Injected) | Bot PAT (Injected) |

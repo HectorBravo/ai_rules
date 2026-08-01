@@ -4,15 +4,15 @@
 
 - **Remote URL Policy:** Always use SSH (`git@github.com:<owner>/<repo>.git`). Never embed credentials in the remote URL. This allows the user to push with their own SSH keys.
 
-- **Bot Identity:** Commits authored as `<AI_BOT_NAME>` / `<AI_BOT_EMAIL>` via **PAT**.
+- **Bot Identity:** Commits authored as `$env:AI_BOT_NAME` / `$env:AI_BOT_EMAIL` via **PAT**.
   - Authentication: Dynamic PAT injection per command.
   - Identity: Dynamic `git -c` override per command.
 
 ## Bot Pushing Rules
 
 - **FORBIDDEN:** `git push origin` — uses SSH and the user's identity.
-- **MANDATORY:** Inject PAT into URL: `git push https://<AI_BOT_NAME>:<BOT_TOKEN>@github.com/<owner>/<repo>.git`
-- **MANDATORY:** Override user identity: `git -c user.name="<AI_BOT_NAME>" -c user.email="<AI_BOT_EMAIL>" commit -m "..."`
+- **MANDATORY:** Inject PAT into URL: `git push https://$env:AI_BOT_NAME:${env:AI_BOT_TOKEN}@github.com/<owner>/<repo>.git`
+- **MANDATORY:** Override user identity: `git -c user.name="$env:AI_BOT_NAME" -c user.email="$env:AI_BOT_EMAIL" commit -m "..."`
 
 ## Bot Cloning Workflow
 
@@ -22,7 +22,7 @@
 ## General Rules
 
 - **MANDATORY:** Set env vars for EVERY git command — never forget, never skip:
-  `$env:GIT_AUTHOR_NAME="<AI_BOT_NAME>"; $env:GIT_AUTHOR_EMAIL="<AI_BOT_EMAIL>"; git <command>`
+  `$env:GIT_AUTHOR_NAME="$env:AI_BOT_NAME"; $env:GIT_AUTHOR_EMAIL="$env:AI_BOT_EMAIL"; git <command>`
 
 - Every change → new branch `feat/ai_job_<short_issue_details>`, then merge into current branch.
 
