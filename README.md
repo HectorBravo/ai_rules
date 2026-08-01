@@ -53,6 +53,20 @@ git config --global credential.helper manager
 
 The bot uses **dynamic injection** to maintain its own identity without polluting your global config:
 
+#### How to get a Bot PAT
+
+1. Go to **GitHub Settings** → **Developer settings** → **Personal access tokens** → **Fine-grained tokens**.
+2. Click **Generate new token**.
+3. Name it (e.g., `AI_BOT`).
+4. Set expiration (e.g., 90 days).
+5. **Repository access:** Select "Only select repositories" and add your repos.
+6. **Permissions:**
+   - **Contents:** Read & Write
+   - **Pull requests:** Read & Write
+   - **Administration:** Read & Write (needed to create repos)
+   - **Metadata:** Read-only
+7. Click **Generate token** and copy it.
+
 1. **Store bot PAT** in a global `.env` file (e.g., `D:\repos\.env`):
    ```
    BOT_TOKEN=ghp_xxxxxxxxxxxx
