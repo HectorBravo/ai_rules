@@ -34,9 +34,24 @@ cp .env.sample .env
 - `.env` is **ignored** by git (local-only)
 - `MAX_SUBAGENTS=<number>` — max concurrent subagents
 
-## Bot Identity & Credentials
+## User & Bot Identity Setup
 
-### How to get a Bot PAT
+### User Setup (Global)
+
+Set your identity globally so all your commits are attributed to you:
+
+```powershell
+# Set your global identity
+git config --global user.name "Your Name"
+git config --global user.email "your@email.com"
+
+# Set your global credential helper (Windows Keyring)
+git config --global credential.helper manager
+```
+
+### Bot Identity & Credentials
+
+#### How to get a Bot PAT
 
 **GitHub:**
 
@@ -61,7 +76,7 @@ cp .env.sample .env
 5. **Scopes:** Select `api`, `read_api`, `read_repository`, `write_repository`, `sudo`.
 6. Click **Create personal access token** and copy it.
 
-### Bot Cloning Workflow
+#### Bot Cloning Workflow
 
 When the bot creates a new repo, it must clone using its PAT and then clean the remote URL to remove the credential:
 
@@ -74,7 +89,7 @@ git clone https://AI_bot:${env:BOT_TOKEN}@github.com/<owner>/<repo>.git
 git remote set-url origin https://github.com/<owner>/<repo>.git
 ```
 
-### Bot Pushing Rules
+#### Bot Pushing Rules
 
 The bot uses **dynamic injection** to maintain its own identity without polluting the global config:
 
@@ -95,3 +110,10 @@ The bot uses **dynamic injection** to maintain its own identity without pollutin
    git -c user.name="AI_bot" -c user.email="$env:AI_BOT_EMAIL" commit -m "bot commit"
    git push https://AI_bot:${env:BOT_TOKEN}@github.com/<owner>/<repo>.git
    ```
+
+### Identity Separation
+
+| Action | Identity (Author) | Authentication |
+|---|---|---|
+| **You push** (`git push`) | Your Name (Global) | Your SSH Key (Global) |
+| **Bot pushes** (`git push https://AI_bot:${TOKEN}@...`) | AI_bot (Injected) | Bot PAT (Injected) |
