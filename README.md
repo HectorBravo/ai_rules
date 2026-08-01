@@ -55,6 +55,8 @@ The bot uses **dynamic injection** to maintain its own identity without pollutin
 
 #### How to get a Bot PAT
 
+**GitHub:**
+
 1. Go to **GitHub Settings** → **Developer settings** → **Personal access tokens** → **Fine-grained tokens**.
 2. Click **Generate new token**.
 3. Name it (e.g., `AI_BOT`).
@@ -67,9 +69,18 @@ The bot uses **dynamic injection** to maintain its own identity without pollutin
    - **Metadata:** Read-only
 7. Click **Generate token** and copy it.
 
+**GitLab:**
+
+1. Go to **GitLab Settings** → **Access Tokens**.
+2. Click **New personal access token**.
+3. Name it (e.g., `AI_BOT`).
+4. Set expiration (e.g., 90 days).
+5. **Scopes:** Select `api`, `read_api`, `read_repository`, `write_repository`, `sudo`.
+6. Click **Create personal access token** and copy it.
+
 1. **Store bot PAT** in a global `.env` file (e.g., `D:\repos\.env`):
    ```
-   BOT_TOKEN=ghp_xxxxxxxxxxxx
+   BOT_TOKEN=glpat_xxxxxxxxxxxx
    AI_BOT_EMAIL=ai_bot@sample.com
    ```
 
