@@ -8,3 +8,5 @@
 - If repo is empty, create initial remote `main` branch first.
 
 - Never use `git commit` or `git merge` without env vars — always prefix with them.
+
+- After PR merge: delete local branch (`git branch -d <branch>`), keep remote branch (user will delete it).
