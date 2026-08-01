@@ -1,4 +1,4 @@
-# AI Rules
+﻿# AI Rules
 
 Centralized ruleset for AI agents.
 
@@ -9,6 +9,7 @@ ai_rules/
 ├── README.md
 ├── AI_RULES.md          # Main entry point
 ├── HOST_RULES.md        # Host environment detection & rules
+├── .env.sample          # Sample config (copy to .env)
 └── code_development/    # Code development rules
     ├── CODE_DEVELOPMENT.md
     ├── C_CPP_RULES.md
@@ -24,5 +25,11 @@ ai_rules/
 
 ## Configuration
 
-- `.env` file (local, not committed): `MAX_SUBAGENTS=<number>`
-﻿README.md
+Copy `.env.sample` to `.env` and adjust as needed:
+
+```bash
+cp .env.sample .env
+```
+
+- `.env` is **ignored** by git (local-only)
+- `MAX_SUBAGENTS=<number>` — max concurrent subagents
