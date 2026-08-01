@@ -78,6 +78,19 @@ The bot uses **dynamic injection** to maintain its own identity without pollutin
 5. **Scopes:** Select `api`, `read_api`, `read_repository`, `write_repository`, `sudo`.
 6. Click **Create personal access token** and copy it.
 
+#### Bot Cloning Workflow
+
+When the bot creates a new repo, it must clone using its PAT and then clean the remote URL to remove the credential:
+
+```powershell
+# 1. Clone with PAT
+$env:BOT_TOKEN = "ghp_xxxxxxxxxxxx"
+git clone https://AI_bot:${env:BOT_TOKEN}@github.com/<owner>/<repo>.git
+
+# 2. Remove PAT from remote URL
+git remote set-url origin https://github.com/<owner>/<repo>.git
+```
+
 1. **Store bot PAT** in a global `.env` file (e.g., `D:\repos\.env`):
    ```
    BOT_TOKEN=glpat_xxxxxxxxxxxx

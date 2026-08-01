@@ -18,6 +18,11 @@
 - **MANDATORY:** Inject PAT into URL: `git push https://<AI_BOT_NAME>:<BOT_TOKEN>@github.com/<owner>/<repo>.git`
 - **MANDATORY:** Override user identity: `git -c user.name="<AI_BOT_NAME>" -c user.email="<AI_BOT_EMAIL>" commit -m "..."`
 
+## Bot Cloning Workflow
+
+- **MANDATORY:** After cloning a repo created by the bot, immediately clean the remote URL to remove the PAT:
+  `git remote set-url origin https://github.com/<owner>/<repo>.git`
+
 ## General Rules
 
 - **MANDATORY:** Set env vars for EVERY git command — never forget, never skip:
