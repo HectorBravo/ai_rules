@@ -18,6 +18,8 @@ Then follow the matching ruleset:
 - All tool calls: PowerShell commands
 
 ## Linux
+- **Default mode — always assume non-privileged unless user says otherwise**
 - Use bash/zsh commands
 - Package managers: `apt`, `yum`, `pacman` (detect available)
+- Use `sudo` only when explicitly requested
 - All tool calls: bash commands
